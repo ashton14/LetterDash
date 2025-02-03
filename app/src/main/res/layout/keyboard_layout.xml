@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:columnCount="1"
+    android:rowCount="3"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/keyQ"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="Q"
+            android:text="Q" />
+
+        <Button
+            android:id="@+id/keyW"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="W"
+            android:text="W" />
+
+        <Button
+            android:id="@+id/keyE"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="E"
+            android:text="E" />
+
+        <Button
+            android:id="@+id/keyR"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="R"
+            android:text="R" />
+
+        <Button
+            android:id="@+id/keyT"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="T"
+            android:text="T" />
+
+        <Button
+            android:id="@+id/keyY"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="Y"
+            android:text="Y" />
+
+        <Button
+            android:id="@+id/keyU"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="U"
+            android:text="U" />
+
+        <Button
+            android:id="@+id/keyI"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="I"
+            android:text="I" />
+
+        <Button
+            android:id="@+id/keyO"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="O"
+            android:text="O" />
+
+        <Button
+            android:id="@+id/keyP"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="P"
+            android:text="P" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/keyA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="A"
+            android:text="A" />
+
+        <Button
+            android:id="@+id/keyS"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="S"
+            android:text="S" />
+
+        <Button
+            android:id="@+id/keyD"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="D"
+            android:text="D" />
+
+        <Button
+            android:id="@+id/keyF"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="F"
+            android:text="F" />
+
+        <Button
+            android:id="@+id/keyG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="G"
+            android:text="G" />
+
+        <Button
+            android:id="@+id/keyH"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="H"
+            android:text="H" />
+
+        <Button
+            android:id="@+id/keyJ"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="J"
+            android:text="J" />
+
+        <Button
+            android:id="@+id/keyK"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="K"
+            android:text="K" />
+
+        <Button
+            android:id="@+id/keyL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="L"
+            android:text="L" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/keyBackspace"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="⌫"
+            android:text="⌫" />
+
+        <Button
+            android:id="@+id/keyZ"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="Z"
+            android:text="Z" />
+
+        <Button
+            android:id="@+id/keyX"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="X"
+            android:text="X" />
+
+        <Button
+            android:id="@+id/keyC"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="C"
+            android:text="C" />
+
+        <Button
+            android:id="@+id/keyV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="V"
+            android:text="V" />
+
+        <Button
+            android:id="@+id/keyB"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="B"
+            android:text="B" />
+
+        <Button
+            android:id="@+id/keyN"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="N"
+            android:text="N" />
+
+        <Button
+            android:id="@+id/keyM"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:tag="M"
+            android:text="M" />
+
+        <Button
+            android:id="@+id/keyENTER"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_gravity="fill"
+            android:tag="ENTER"
+            android:text="ENTER" />
+
+
+
+    </LinearLayout>
+
+</GridLayout>
