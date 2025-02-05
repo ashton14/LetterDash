@@ -24,7 +24,9 @@ import com.zybooks.letterdash.ui.components.SettingsButton
 import com.zybooks.letterdash.ui.components.TitleLogo
 
 @Composable
-fun GameOverScreen(modifier: Modifier = Modifier) {
+fun GameOverScreen(modifier: Modifier = Modifier,
+                   onPlayAgainClick: () -> Unit = {},
+                   onHomeClick: () -> Unit = {}) {
     Box(
         modifier = modifier
             .fillMaxSize()

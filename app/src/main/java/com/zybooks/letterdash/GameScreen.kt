@@ -13,7 +13,9 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.zybooks.letterdash.ui.components.Keyboard
 
 @Composable
-fun GameScreen(modifier: Modifier = Modifier) {
+fun GameScreen(modifier: Modifier = Modifier,
+               score: Int,
+               onTimerEnd: () -> Unit = {}) {
 
     val context = LocalContext.current
     var currentWord by remember { mutableStateOf("") }
@@ -83,6 +85,6 @@ fun GameScreen(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun GameScreenPreview() {
-    GameScreen(modifier = Modifier.fillMaxSize())
+    GameScreen(modifier = Modifier.fillMaxSize(), 0)
 
 }

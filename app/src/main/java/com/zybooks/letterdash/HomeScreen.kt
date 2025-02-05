@@ -20,7 +20,9 @@ import com.zybooks.letterdash.ui.components.PlayButton
 
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(modifier: Modifier = Modifier,
+               highScore: Int,
+               onPlayClick: () -> Unit = {}) {
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -50,8 +52,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 )
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                var playButton = PlayButton()
-                playButton.Content()
+                PlayButton(onClick = onPlayClick)
                 Row(horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = modifier
                         .padding(top = 6.dp)
@@ -74,6 +75,6 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 @Composable
 fun HomePreview() {
     LetterDashTheme {
-        HomeScreen()
+        HomeScreen(modifier = Modifier, highScore = 0, onPlayClick = {})
     }
 }

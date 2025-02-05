@@ -20,6 +20,18 @@ class GameViewModel : ViewModel() {
     }
 
     private fun loadHighScore() {
-        //highScore.value = sharedPrefs.getInt("high_score", 0)
+        //if (score > current high score){
+        //highScore.value = score.value
+        //}
+
     }
+
+    fun getHighScore() : Int {
+        return highScore.value!!
+    }
+
+    fun getScore() : Int {
+        return score.value!!
+    }
+
 }
