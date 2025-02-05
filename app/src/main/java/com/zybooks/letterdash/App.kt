@@ -1,6 +1,7 @@
 package com.zybooks.letterdash
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
@@ -19,7 +20,7 @@ sealed class Routes {
 
 @Composable
 fun App(
-    gameViewModel: GameViewModel = GameViewModel(),
+    gameViewModel: GameViewModel = viewModel(),
 ) {
     val navController = rememberNavController()
 
@@ -32,15 +33,16 @@ fun App(
                 highScore = gameViewModel.getHighScore(),
                 onPlayClick = {
                     navController.navigate(Routes.Game)
-                }
+                },
+                gameViewModel = gameViewModel
             )
         }
         composable<Routes.Game> {
             GameScreen(
-                score = 0 ,
                 onTimerEnd = {
                     navController.navigate(Routes.GameOver)
                 },
+                gameViewModel = gameViewModel
             )
         }
         composable<Routes.GameOver> {
@@ -50,7 +52,8 @@ fun App(
                 },
                 onHomeClick = {
                     navController.navigate(Routes.Home)
-                }
+                },
+                gameViewModel = gameViewModel
             )
         }
     }

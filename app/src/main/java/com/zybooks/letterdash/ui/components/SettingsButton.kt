@@ -15,30 +15,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-class SettingsButton {
 
-    @SuppressLint("NotConstructor")
-    @Composable
-    fun Content(
-        modifier: Modifier = Modifier,
-        onClick: () -> Unit = {}) {
-        Button(
-            onClick = onClick,
-            modifier = modifier
-                .height(100.dp)
-                .width(100.dp),
-            shape = RoundedCornerShape(37),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xff8322ff), // Purple background color
-                contentColor = Color.White // White text color
-            )
-        ) {
-            Icon(
-                imageVector = Icons.Default.Settings,
-                contentDescription = "Settings",
-                modifier = Modifier
-                    .size(70.dp)
-            )
-        }
+@Composable
+fun SettingsButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}) {
+    Button(
+        onClick = onClick,
+        modifier = modifier
+            .height(100.dp)
+            .width(100.dp),
+        shape = RoundedCornerShape(37),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xff8322ff), // Purple background color
+            contentColor = Color.White // White text color
+        )
+    ) {
+        Icon(
+            imageVector = Icons.Default.Settings,
+            contentDescription = "Settings",
+            modifier = Modifier
+                .size(70.dp)
+        )
     }
 }

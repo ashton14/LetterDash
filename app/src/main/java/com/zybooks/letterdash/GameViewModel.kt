@@ -2,29 +2,31 @@ package com.zybooks.letterdash
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import android.app.Application
-import android.content.Context
+
 
 
 class GameViewModel : ViewModel() {
-    //private val sharedPrefs = getApplication<Application>().getSharedPreferences("GameData", Context.MODE_PRIVATE)
+    private val bookkeeper = Bookkeeper()
+
     private var score = MutableLiveData<Int>(0)
     private var highScore = MutableLiveData<Int>(0)
+    private var currentLetters = MutableLiveData<List<String>>(bookkeeper.generateLetters())
+
 
     fun updateHighScore(newScore: Int) : Unit {
-        score.value = newScore
+        if (newScore > highScore.value!!) {
+            score.value = newScore
+            }
     }
 
-    init{
-        loadHighScore()
+    fun updateScore(points: Int) : Unit {
+        score.value = score.value?.plus(points)
     }
 
-    private fun loadHighScore() {
-        //if (score > current high score){
-        //highScore.value = score.value
-        //}
-
+    fun updateCurrentLetters() : Unit {
+        currentLetters.value = bookkeeper.generateLetters()
     }
+
 
     fun getHighScore() : Int {
         return highScore.value!!
@@ -33,5 +35,10 @@ class GameViewModel : ViewModel() {
     fun getScore() : Int {
         return score.value!!
     }
+
+    fun getCurrentLetters() : List<String> {
+        return currentLetters.value!!
+    }
+
 
 }

@@ -26,7 +26,8 @@ import com.zybooks.letterdash.ui.components.TitleLogo
 @Composable
 fun GameOverScreen(modifier: Modifier = Modifier,
                    onPlayAgainClick: () -> Unit = {},
-                   onHomeClick: () -> Unit = {}) {
+                   onHomeClick: () -> Unit = {},
+                   gameViewModel: GameViewModel) {
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -43,30 +44,26 @@ fun GameOverScreen(modifier: Modifier = Modifier,
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val titleLogo = TitleLogo()
-            titleLogo.Content()
+            TitleLogo()
             Box(
                 modifier = Modifier.padding(bottom = 16.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "HIGH SCORE: ",
+                    text = "SCORE: ",
                     color = Color.Black,
                     fontSize = 50.sp
                 )
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                val playAgainButton = PlayAgainButton()
-                playAgainButton.Content()
+                PlayAgainButton()
                 Row(horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = modifier
                         .padding(top = 6.dp)
                 )                {
-                    val settingsButton = SettingsButton()
-                    settingsButton.Content()
+                    SettingsButton()
                     Spacer(modifier = Modifier.width(30.dp))
-                    val homeButton = HomeButton()
-                    homeButton.Content()
+                    HomeButton()
                 }
             }
         }
@@ -76,5 +73,5 @@ fun GameOverScreen(modifier: Modifier = Modifier,
 @Preview
 @Composable
 fun GameOverPreview() {
-    GameOverScreen()
+    GameOverScreen(gameViewModel = GameViewModel())
 }
