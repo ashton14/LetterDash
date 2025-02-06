@@ -37,7 +37,7 @@ fun PlayAgainButton(
             fontSize = 42.sp, // Text size
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
-                fontSize = 15.sp
+                fontSize = 12.sp
             )
         )
     }

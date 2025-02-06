@@ -33,6 +33,7 @@ fun App(
                 highScore = gameViewModel.getHighScore(),
                 onPlayClick = {
                     navController.navigate(Routes.Game)
+                    gameViewModel.resetGame()
                 },
                 gameViewModel = gameViewModel
             )
@@ -41,6 +42,7 @@ fun App(
             GameScreen(
                 onTimerEnd = {
                     navController.navigate(Routes.GameOver)
+                    gameViewModel.updateHighScore()
                 },
                 gameViewModel = gameViewModel
             )
@@ -49,6 +51,7 @@ fun App(
             GameOverScreen(
                 onPlayAgainClick = {
                     navController.navigate(Routes.Game)
+                    gameViewModel.resetGame()
                 },
                 onHomeClick = {
                     navController.navigate(Routes.Home)

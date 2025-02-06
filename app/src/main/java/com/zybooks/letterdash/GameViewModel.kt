@@ -13,9 +13,9 @@ class GameViewModel : ViewModel() {
     private var currentLetters = MutableLiveData<List<String>>(bookkeeper.generateLetters())
 
 
-    fun updateHighScore(newScore: Int) : Unit {
-        if (newScore > highScore.value!!) {
-            score.value = newScore
+    fun updateHighScore() : Unit {
+        if (score.value!! > highScore.value!!) {
+            highScore.value = score.value
             }
     }
 
@@ -38,6 +38,23 @@ class GameViewModel : ViewModel() {
 
     fun getCurrentLetters() : List<String> {
         return currentLetters.value!!
+    }
+
+    fun resetGame() : Unit {
+        score.value = 0
+        currentLetters.value = bookkeeper.generateLetters()
+    }
+
+    fun submitWord(word: String, letters: List<Char>): Unit {
+        if (!bookkeeper.isValidWord(word)) {
+            //dialog saying invalid word
+            return
+        }
+        if (!bookkeeper.containsLetters(word, letters)) {
+            //dialog saying missing letters
+            return
+        }
+        updateScore(bookkeeper.scoreWord(letters))
     }
 
 

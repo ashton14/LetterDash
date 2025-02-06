@@ -27,6 +27,7 @@ import com.zybooks.letterdash.ui.components.TitleLogo
 fun GameOverScreen(modifier: Modifier = Modifier,
                    onPlayAgainClick: () -> Unit = {},
                    onHomeClick: () -> Unit = {},
+                   onSettingsClick: () -> Unit = {},
                    gameViewModel: GameViewModel) {
     Box(
         modifier = modifier
@@ -50,20 +51,20 @@ fun GameOverScreen(modifier: Modifier = Modifier,
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "SCORE: ",
+                    text = "SCORE: ${gameViewModel.getScore()}",
                     color = Color.Black,
                     fontSize = 50.sp
                 )
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                PlayAgainButton()
+                PlayAgainButton(onClick = onPlayAgainClick)
                 Row(horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = modifier
                         .padding(top = 6.dp)
                 )                {
-                    SettingsButton()
+                    SettingsButton(onClick = onSettingsClick)
                     Spacer(modifier = Modifier.width(30.dp))
-                    HomeButton()
+                    HomeButton(onClick = onHomeClick)
                 }
             }
         }

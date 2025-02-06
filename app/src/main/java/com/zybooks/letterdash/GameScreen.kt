@@ -16,9 +16,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.zybooks.letterdash.ui.components.Keyboard
 import com.zybooks.letterdash.ui.components.LetterTile
@@ -31,8 +35,14 @@ fun GameScreen(
     onTimerEnd: () -> Unit = {},
     gameViewModel: GameViewModel
 ) {
-    var currentWord by remember { mutableStateOf("") }
+    var currentWord by remember { mutableStateOf(TextFieldValue("")) }
     val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+        keyboardController?.show()
+    }
     //for keyboard
     //val context = LocalContext.current
     //val keyboard = remember { mutableStateOf<Keyboard?>(null) }
@@ -54,12 +64,19 @@ fun GameScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp) // Add some padding around the timer
+                .align(Alignment.CenterHorizontally)
+
         ) {
             Timer(onTimerEnd = onTimerEnd)
         }
 
-        Text(modifier = modifier,
-            text = "SCORE: ${gameViewModel.getScore()}")
+        Text(
+            modifier = modifier.padding(16.dp)
+                .focusRequester(focusRequester),
+            text = "SCORE: ${gameViewModel.getScore()}",
+            fontSize = 30.sp
+
+        )
 
         // Text Field
         OutlinedTextField(
@@ -70,7 +87,9 @@ fun GameScreen(
                 .fillMaxWidth()
                 .padding(16.dp)
                 .focusRequester(focusRequester)
-                .border(3.dp, Color.Black)
+                .border(3.dp, Color.Black),
+            textStyle = TextStyle(fontSize = 30.sp)
+
         )
 
         // Letters
@@ -80,17 +99,18 @@ fun GameScreen(
                 .padding(16.dp),
             horizontalArrangement = Arrangement.Center
         ) {
+            val letters = gameViewModel.getCurrentLetters()
+            for (i in letters.indices) {
+                LetterTile(letter = letters[i])
+                if (i < letters.size - 1) {
+                    Spacer(modifier = Modifier.width(16.dp))
+                }
+            }
 
-            for (letter in gameViewModel.getCurrentLetters()) {
-                LetterTile(letter = letter)
             }
         }
 
-        LaunchedEffect(Unit) {
-            focusRequester.requestFocus()
-        }
     }
-}
 
 //        Box( // Box to contain and align the keyboard
 //            modifier = Modifier

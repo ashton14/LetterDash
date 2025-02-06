@@ -4,7 +4,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.random.Random
 
-class Bookkeeper {
+class Bookkeeper() {
 
     fun isValidWord(word: String): Boolean {
         val baseUrl = "https://api.dictionaryapi.dev/api/v2/entries/en/$word"
@@ -59,5 +59,14 @@ class Bookkeeper {
         }
         return true
     }
+
+    fun scoreWord(letters: List<Char>): Int {
+        var score = 0
+        for (letter in letters) {
+            score += Letter.getPointsForLetter(letter)
+        }
+        return score
+    }
+
 
 }
