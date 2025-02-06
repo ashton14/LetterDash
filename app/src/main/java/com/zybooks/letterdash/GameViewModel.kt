@@ -1,8 +1,10 @@
 package com.zybooks.letterdash
 
+import androidx.annotation.OptIn
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
 
 
 class GameViewModel : ViewModel() {
@@ -46,21 +48,29 @@ class GameViewModel : ViewModel() {
     }
 
 
-    fun submitWord(word: String, letters: List<Char>): Boolean {
-        if (!bookkeeper.isValidWord(word)) {
-            //dialog saying invalid word
-            return false
-        }
-        if (!bookkeeper.containsLetters(word, letters)) {
-            //dialog saying missing letters
-            return false
-        }
+    @OptIn(UnstableApi::class)
+    fun submitWord(word: String, letters: List<Char>, callback: (Boolean) -> Unit) {
 
-        updateScore(bookkeeper.scoreWord(letters))
-        updateCurrentLetters()
-        println("Score: " + score.value)
-        println("New letters: " + currentLetters.value)
-        return true
+        bookkeeper.isValidWord(word) { isValid ->  // Callback from isValidWord
+            if (!isValid) {
+                Log.i("debug", "word is NOT valid")
+                callback(false) // Call callback with false (invalid word)
+                return@isValidWord // Important: Return from the lambda
+            }
+
+            Log.i("debug", "word is valid")
+
+            if (!bookkeeper.containsLetters(word, letters)) {
+                Log.i("debug", "word does NOT contain letters")
+                callback(false) // Call callback with false (missing letters)
+                return@isValidWord // Important: Return from the lambda
+            }
+
+            Log.i("debug", "word contains letters")
+            updateScore(bookkeeper.scoreWord(letters))
+            updateCurrentLetters()
+            callback(true) // Call callback with true (word submitted successfully)
+        }
     }
 
 

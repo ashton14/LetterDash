@@ -13,9 +13,8 @@ import androidx.compose.ui.unit.sp
 
 
 @Composable
-fun Timer(durationMillis: Long = 15000, onTimerEnd: () -> Unit = {}) {
-    var timeLeft by remember { mutableStateOf(durationMillis) }
-    val context = LocalContext.current // Get the context
+fun Timer(durationMillis: Long = 60000, onTimerEnd: () -> Unit = {}) {
+    var timeLeft by remember { mutableLongStateOf(durationMillis) }
     var timer: CountDownTimer? = null
 
 

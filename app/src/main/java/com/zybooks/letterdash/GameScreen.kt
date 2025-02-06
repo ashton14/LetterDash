@@ -115,15 +115,18 @@ fun GameScreen(
         Keyboard(
             modifier = modifier.fillMaxWidth(),
             onKey = { char ->
+
                 if (char == '✓') {
-                    if (gameViewModel.submitWord(
-                            currentWord.text,
-                            gameViewModel.getCurrentLetters()
-                        )
-                    ) {
-                        currentWord = currentWord.copy(text = "")
+                    gameViewModel.submitWord(
+                        currentWord.text,
+                        gameViewModel.getCurrentLetters()
+                    ) { isSuccessful ->  // Callback from submitWord
+                        if (isSuccessful) {
+                            Log.i("debug", "Word submitted successfully")
+                            currentWord = currentWord.copy(text = "") // Clear the word *inside* the callback
+                        }
                     }
-                    Log.i("debug", "submitted")
+                    Log.i("debug", "after: "+gameViewModel.getScore().toString())
 
                 } else if (char == '⌫') {
                     currentWord = currentWord.copy(
