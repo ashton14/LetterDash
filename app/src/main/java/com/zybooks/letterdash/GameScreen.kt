@@ -1,5 +1,6 @@
 package com.zybooks.letterdash
 
+import androidx.annotation.OptIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -24,11 +25,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
 import com.zybooks.letterdash.ui.components.Keyboard
 import com.zybooks.letterdash.ui.components.LetterTile
 import com.zybooks.letterdash.ui.components.Timer
 
 
+@OptIn(UnstableApi::class)
 @Composable
 fun GameScreen(
     modifier: Modifier = Modifier,
@@ -37,15 +41,10 @@ fun GameScreen(
 ) {
     var currentWord by remember { mutableStateOf(TextFieldValue("")) }
     val focusRequester = remember { FocusRequester() }
-    val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
-        keyboardController?.show()
     }
-    //for keyboard
-    //val context = LocalContext.current
-    //val keyboard = remember { mutableStateOf<Keyboard?>(null) }
 
     Column(
         modifier = modifier
@@ -57,14 +56,16 @@ fun GameScreen(
                     endY = Float.POSITIVE_INFINITY
                 )
             ),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         // Timer
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp) // Add some padding around the timer
-                .align(Alignment.CenterHorizontally)
+                .align(Alignment.CenterHorizontally),
+            contentAlignment = Alignment.Center
 
         ) {
             Timer(onTimerEnd = onTimerEnd)
@@ -74,7 +75,7 @@ fun GameScreen(
             modifier = modifier.padding(16.dp)
                 .focusRequester(focusRequester),
             text = "SCORE: ${gameViewModel.getScore()}",
-            fontSize = 30.sp
+            fontSize = 30.sp,
 
         )
 
@@ -108,48 +109,35 @@ fun GameScreen(
             }
 
             }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        Keyboard(
+            modifier = modifier.fillMaxWidth(),
+            onKey = { char ->
+                if (char == '✓') {
+                    if (gameViewModel.submitWord(
+                            currentWord.text,
+                            gameViewModel.getCurrentLetters()
+                        )
+                    ) {
+                        currentWord = currentWord.copy(text = "")
+                    }
+                    Log.i("debug", "submitted")
+
+                } else if (char == '⌫') {
+                    currentWord = currentWord.copy(
+                        text = if (currentWord.text.isNotEmpty()) currentWord.text.dropLast(1)
+                        else currentWord.text
+                    )
+                } else {
+                    currentWord = currentWord.copy(text = currentWord.text + char)
+                }
+            },
+        )
         }
 
     }
-
-//        Box( // Box to contain and align the keyboard
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .weight(1f) // Take up remaining space, pushing keyboard to bottom
-//        ) {
-//            AndroidView(
-//                factory = {
-//                    Keyboard(it).also {
-//                        keyboard.value = it
-//                    }
-//                },
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .wrapContentHeight()
-//                    .align(Alignment.BottomCenter) // Correct alignment within the Box
-//            )
-//        }
-//    }
-//
-//    LaunchedEffect(keyboard.value) { // Set listener ONCE
-//        keyboard.value?.setOnKeyboardActionListener(object : Keyboard.OnKeyboardActionListener {
-//            override fun onKeyClicked(key: String) {
-//                when (key) {
-//                    "ENTER" -> {
-//                        // Game logic (check word)
-//                    }
-//                    "⌫" -> {
-//                        if (currentWord.isNotEmpty()) {
-//                            currentWord = currentWord.substring(0, currentWord.length - 1)
-//                        }
-//                    }
-//                    else -> {
-//                        currentWord += key
-//                    }
-//                }
-//            }
-//        })
-//    }
 
 
 @Preview

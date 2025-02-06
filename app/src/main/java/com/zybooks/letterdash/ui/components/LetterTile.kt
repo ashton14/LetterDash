@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun LetterTile(
-    letter: String,
+    letter: Char,
     modifier: Modifier = Modifier,
     fontSize: Int = 36
 ) {
@@ -34,7 +34,7 @@ fun LetterTile(
 
     ) {
         Text(
-            text = letter,
+            text = letter.toString(),
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,

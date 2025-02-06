@@ -29,10 +29,10 @@ class Bookkeeper() {
         return false;
     }
 
-    fun generateLetters(): List<String> {
+    fun generateLetters(): List<Char> {
         val threshold = 21;
         var totalPoints = 0;
-        val letters = mutableListOf<String>();
+        val letters = mutableListOf<Char>();
 
         while(letters.size < 3){
             val letter = randomLetter()
@@ -41,7 +41,7 @@ class Bookkeeper() {
                 continue;
             }
             totalPoints += points;
-            letters.add(letter.toString());
+            letters.add(letter);
         }
         return letters;
     }
@@ -67,6 +67,5 @@ class Bookkeeper() {
         }
         return score
     }
-
 
 }

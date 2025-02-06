@@ -1,99 +1,103 @@
 package com.zybooks.letterdash.ui.components
 
-import android.content.Context
-import android.graphics.Color
-import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.GridLayout
-import com.zybooks.letterdash.R
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
-class Keyboard @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : GridLayout(context, attrs, defStyleAttr) {
-
-    private val keys = listOf(
-        "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
-        "A", "S", "D", "F", "G", "H", "J", "K", "L",
-        "ENTER", "Z", "X", "C", "V", "B", "N", "M", "⌫"
+@Composable
+fun Keyboard(
+    modifier: Modifier = Modifier,
+    onKey: (char: Char) -> Unit,
+) {
+    val keys = listOf(
+        'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
+        'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L',
+        '⌫', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '✓'
     )
 
-    private var listener: OnKeyboardActionListener? = null
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(6.dp)
+    ) {
+        Column(modifier) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                keys.take(10).forEach { key ->
+                    KeyboardKey(text = key.toString(),
+                        modifier = Modifier.weight(1f),
+                        onClick = { onKey(key) })
+                }
+            }
+            Spacer(Modifier.size(4.dp))
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier.padding(start = 8.dp)
+            ) {
+                keys.drop(10).take(9).forEach { key ->
+                    KeyboardKey(text = key.toString(),
+                        modifier = Modifier.weight(1f),
+                        onClick = { onKey(key) })
+                }
+                Spacer(Modifier.size(4.dp))
+            }
+            Spacer(Modifier.size(4.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                var color: Color
+                keys.drop(19).take(9).forEach { key ->
+                    if (key == '⌫') {
+                        color = Color.Red
+                    } else if (key == '✓') {
+                        color = Color(0xFF009539)
 
-    init {
-        LayoutInflater.from(context).inflate(R.layout.keyboard_layout, this, true)
-
-        keys.forEach { key ->
-            val button = findViewWithTag<Button>(key)
-            button?.setOnClickListener {
-                listener?.onKeyClicked(key)
+                    } else {
+                        color = Color.DarkGray
+                    }
+                    KeyboardKey(text = key.toString(),
+                        modifier = Modifier.weight(1f),
+                        color = color,
+                        onClick = { onKey(key) })
+                }
             }
 
-            button?.setBackgroundColor(Color.LTGRAY)
-            button?.setTextColor(Color.BLACK)
-        }
-
-        layoutTransition = null // Disable layout transitions (CRUCIAL)
-
-        post {
-            val buttonWidth = context.resources.displayMetrics.widthPixels / 10 // Adjust as needed
-            val buttonHeight = (buttonWidth * 1.2).toInt() // Adjust as needed
-
-            keys.forEach { key ->
-                val button = findViewWithTag<Button>(key)
-                button?.layoutParams = LayoutParams(buttonWidth, buttonHeight) // Fixed button sizes
-            }
-
-            val desiredWidth = context.resources.displayMetrics.widthPixels
-            val desiredHeight = (buttonHeight * 3) + paddingTop + paddingBottom // Fixed GridLayout height
-            layoutParams = LayoutParams(desiredWidth, desiredHeight)
-            requestLayout()
         }
     }
+}
 
-    fun setOnKeyboardActionListener(listener: OnKeyboardActionListener) {
-        this.listener = listener
+@Composable
+private fun KeyboardKey(
+    text: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    color: Color = Color.DarkGray
+) {
+    Box(
+        modifier = modifier
+            .height(60.dp)
+            .clip(RoundedCornerShape(2.dp))
+            .background(color = color)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(text = text, fontSize = 24.sp, color = Color.White)
     }
+}
 
-    interface OnKeyboardActionListener {
-        fun onKeyClicked(key: String)
-    }
-
-    fun updateKeyColor(key: String, color: Int) {
-        val button = findViewWithTag<Button>(key)
-        button?.setBackgroundColor(color)
-    }
-
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        super.onLayout(changed, l, t, r, b)
-        measureChildren()
-        layoutChildren()
-    }
-
-    private fun measureChildren() {
-        for (i in 0 until childCount) {
-            val child = getChildAt(i)
-            measureChild(child, 0, 0)
-        }
-    }
-
-    private fun layoutChildren() {
-        var top = paddingTop
-        var left = paddingLeft
-        for (i in 0 until childCount) {
-            val child = getChildAt(i)
-            val width = child.measuredWidth
-            val height = child.measuredHeight
-
-            child.layout(left, top, left + width, top + height)
-
-            left += width
-            if (left + width > getWidth() - paddingRight) {
-                left = paddingLeft
-                top += height
-            }
-        }
-    }
+@Preview
+@Composable
+fun PreviewKeyboard(){
+    Keyboard(onKey = {})
 }

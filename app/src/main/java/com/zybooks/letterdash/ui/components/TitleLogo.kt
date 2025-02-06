@@ -16,7 +16,7 @@ import com.zybooks.letterdash.ui.components.LetterTile
 
 @Composable
 fun TitleLogo(modifier: Modifier = Modifier){
-    val letters = listOf("L", "E", "T", "T", "E", "R", "D", "A", "S", "H")
+    val letters = listOf('L', 'E', 'T', 'T', 'E', 'R', 'D', 'A', 'S', 'H')
     Row (horizontalArrangement = Arrangement.SpaceEvenly,
         modifier = modifier
             .width(320.dp)
