@@ -51,6 +51,7 @@ fun HomeScreen(modifier: Modifier = Modifier,
                     fontSize = 50.sp
                 )
             }
+            Spacer(modifier = Modifier.height(30.dp))
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 PlayButton(onClick = onPlayClick)
                 Row(horizontalArrangement = Arrangement.SpaceBetween,

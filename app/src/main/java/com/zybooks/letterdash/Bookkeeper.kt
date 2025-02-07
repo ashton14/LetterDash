@@ -54,7 +54,7 @@ class Bookkeeper() {
     }
 
     fun generateLetters(): List<Char> {
-        val threshold = 18;
+        val threshold = 15;
         var totalPoints = 0;
         val letters = mutableListOf<Char>();
 
@@ -80,7 +80,7 @@ class Bookkeeper() {
 
     fun containsLetters(word: String, letters: List<Char>): Boolean {
         for (letter in letters){
-            if (!word.contains(letter.toString().lowercase())){
+            if (!word.lowercase().contains(letter.toString().lowercase())){
                 return false
             }
         }
