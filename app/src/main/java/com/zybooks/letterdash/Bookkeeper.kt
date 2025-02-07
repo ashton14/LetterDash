@@ -54,7 +54,7 @@ class Bookkeeper() {
     }
 
     fun generateLetters(): List<Char> {
-        val threshold = 15;
+        val threshold = 14;
         var totalPoints = 0;
         val letters = mutableListOf<Char>();
 

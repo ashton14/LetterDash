@@ -34,8 +34,7 @@ fun App(
                 onPlayClick = {
                     navController.navigate(Routes.Game)
                     gameViewModel.resetGame()
-                },
-                gameViewModel = gameViewModel
+                }
             )
         }
         composable<Routes.Game> {
