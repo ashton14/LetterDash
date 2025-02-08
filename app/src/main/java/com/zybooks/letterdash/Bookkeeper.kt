@@ -1,7 +1,6 @@
 package com.zybooks.letterdash
 
 import android.util.Log
-import com.zybooks.letterdash.ui.components.Difficulty
 import java.net.ConnectException
 import java.net.HttpURLConnection
 import java.net.SocketTimeoutException

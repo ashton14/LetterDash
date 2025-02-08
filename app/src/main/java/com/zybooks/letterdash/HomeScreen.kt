@@ -3,10 +3,16 @@ package com.zybooks.letterdash
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.VolumeOff
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,12 +20,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.zybooks.letterdash.ui.components.DifficultyButton
 import com.zybooks.letterdash.ui.theme.LetterDashTheme
 import com.zybooks.letterdash.ui.components.SettingsButton
 import com.zybooks.letterdash.ui.components.TitleLogo
@@ -112,14 +120,67 @@ fun HomeScreen(
             if (showSettings) {
                 AlertDialog(
                     title = {
-                        Column {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Checkbox(checked = soundEnabled, onCheckedChange = { soundEnabled = it })
-                                Text("Sound")
+                                Icon(
+                                    imageVector = if (soundEnabled) Icons.AutoMirrored.Filled.VolumeUp else
+                                        Icons.AutoMirrored.Filled.VolumeOff,
+                                    contentDescription = if (soundEnabled) "Sound Enabled" else
+                                        "Sound Disabled",
+                                    modifier = Modifier
+                                        .size(40.dp)
+                                        .clickable {
+                                            soundEnabled = !soundEnabled
+                                        }
+                                )
+                                Text(text = "Sound: ${if (soundEnabled) "On" else "Off"}")
                             }
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Checkbox(checked = vibrationEnabled, onCheckedChange = { vibrationEnabled = it })
-                                Text("Vibration")
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Row(verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween ) {
+                                DifficultyButton(color = Color(0xFF009539), text = "Easy", onClick = {
+                                    gameViewModel.setDifficulty(Difficulty.EASY)
+                                },
+                                    modifier = modifier.alpha(when(gameViewModel.getDifficulty()){
+                                        Difficulty.EASY -> 1F
+                                        else -> 0.5F
+                                    })
+                                        .border(when(gameViewModel.getDifficulty()){
+                                            Difficulty.EASY -> 2.dp
+                                            else -> 0.dp
+                                        }, Color.Black,
+                                            shape = RoundedCornerShape(40))
+                                        .weight(1F)
+                                    )
+                                DifficultyButton(color = Color(0xffddda16), text = "Normal", onClick = {
+                                    gameViewModel.setDifficulty(Difficulty.NORMAL)
+                                },
+                                    modifier =modifier.alpha(when(gameViewModel.getDifficulty()){
+                                        Difficulty.NORMAL -> 1F
+                                        else -> 0.5F
+                                    })
+                                        .border(when(gameViewModel.getDifficulty()){
+                                            Difficulty.NORMAL -> 2.dp
+                                            else -> 0.dp
+                                        }, Color.Black,
+                                            shape = RoundedCornerShape(40))
+                                        .weight(1F)
+                                )
+                                DifficultyButton(color = Color.Red, text = "Hard", onClick = {
+                                    gameViewModel.setDifficulty(Difficulty.HARD)
+                                },
+                                    modifier = modifier.alpha(when(gameViewModel.getDifficulty()){
+                                        Difficulty.HARD -> 1F
+                                        else -> 0.5F
+                                    })
+                                        .border(when(gameViewModel.getDifficulty()){
+                                            Difficulty.HARD -> 2.dp
+                                            else -> 0.dp
+                                        }, Color.Black,
+                                            shape = RoundedCornerShape(40)
+                                        )
+                                        .weight(1F)
+                                )
                             }
                         }
                     },
@@ -130,7 +191,7 @@ fun HomeScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Button(onClick = { showSettings = false }) {
-                                Text(text = "Close")
+                                Text(text = "OK")
                             }
                         }
                     }

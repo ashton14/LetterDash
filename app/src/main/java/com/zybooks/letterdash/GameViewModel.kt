@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
-import com.zybooks.letterdash.ui.components.Difficulty
 
 
 class GameViewModel : ViewModel() {
@@ -13,48 +12,48 @@ class GameViewModel : ViewModel() {
 
     private var score = MutableLiveData<Int>(0)
     private var highScore = MutableLiveData<Int>(0)
-    private var currentLetters = MutableLiveData<List<Char>>(bookkeeper.generateLetters())
+    private var currentLetters = MutableLiveData<List<Char>>()
     private var difficulty = MutableLiveData<Difficulty>(Difficulty.EASY)
 
-
-    fun updateHighScore() : Unit {
-        if (score.value!! > highScore.value!!) {
+    fun updateHighScore() {
+        if (score.value != null && highScore.value != null && score.value!! > highScore.value!!) {
             highScore.value = score.value
-            }
+        }
     }
 
-    private fun updateScore(points: Int) : Unit {
-        score.value = score.value?.plus(points)
+    private fun updateScore(points: Int) {
+        score.value = (score.value ?: 0) + points
     }
 
-    private fun updateCurrentLetters() : Unit {
+    private fun updateCurrentLetters() {
         currentLetters.value = bookkeeper.generateLetters()
     }
 
-    fun getHighScore() : Int {
-        return highScore.value!!
+    fun getHighScore(): Int {
+        return highScore.value ?: 0
     }
 
-    fun getScore() : Int {
-        return score.value!!
+    fun getScore(): Int {
+        return score.value ?: 0
     }
 
-    fun getCurrentLetters() : List<Char> {
-        return currentLetters.value!!
+    fun getCurrentLetters(): List<Char> {
+        return currentLetters.value ?: emptyList()
     }
 
-    fun resetGame() : Unit {
+    fun resetGame() {
         score.value = 0
         currentLetters.value = bookkeeper.generateLetters()
     }
 
-    fun setDifficulty(newDifficulty: Difficulty) : Unit {
+    fun setDifficulty(newDifficulty: Difficulty) {
         difficulty.value = newDifficulty
     }
 
-    fun getDifficulty() : Difficulty {
-        return difficulty.value!!
+    fun getDifficulty(): Difficulty {
+        return difficulty.value ?: Difficulty.EASY
     }
+
 
 
     @OptIn(UnstableApi::class)

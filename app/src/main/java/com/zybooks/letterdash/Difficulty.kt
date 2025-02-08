@@ -1,4 +1,4 @@
-package com.zybooks.letterdash.ui.components
+package com.zybooks.letterdash
 
 enum class Difficulty {
     EASY,

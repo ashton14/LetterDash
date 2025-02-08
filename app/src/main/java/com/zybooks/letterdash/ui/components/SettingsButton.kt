@@ -27,8 +27,8 @@ fun SettingsButton(
             .width(100.dp),
         shape = RoundedCornerShape(37),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xff8322ff), // Purple background color
-            contentColor = Color.White // White text color
+            containerColor = Color(0xff8322ff),
+            contentColor = Color.White
         )
     ) {
         Icon(

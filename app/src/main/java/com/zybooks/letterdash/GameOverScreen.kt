@@ -1,6 +1,7 @@
 package com.zybooks.letterdash
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.VolumeOff
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
@@ -33,7 +35,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.zybooks.letterdash.ui.components.Difficulty
 import com.zybooks.letterdash.ui.components.DifficultyButton
 import com.zybooks.letterdash.ui.components.HomeButton
 import com.zybooks.letterdash.ui.components.PlayAgainButton
@@ -108,31 +109,56 @@ fun GameOverScreen(modifier: Modifier = Modifier,
                         )
                         Text(text = "Sound: ${if (soundEnabled) "On" else "Off"}")
                     }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        DifficultyButton(color = Color.Green, text = "Easy", onClick = {
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Row(verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween ) {
+                        DifficultyButton(color = Color(0xFF009539), text = "Easy", onClick = {
                             gameViewModel.setDifficulty(Difficulty.EASY)
                         },
                             modifier = modifier.alpha(when(gameViewModel.getDifficulty()){
                                 Difficulty.EASY -> 1F
-                                Difficulty.NORMAL -> 0.5F
-                                Difficulty.HARD -> 0.5F
-                            }))
-                        DifficultyButton(color = Color.Yellow, text = "Normal", onClick = {
+                                else -> 0.5F
+                            })
+                                .border(when(gameViewModel.getDifficulty()){
+                                    Difficulty.EASY -> 2.dp
+                                    else -> 0.dp
+                                }, Color.Black,
+                                    shape = RoundedCornerShape(40)
+                                )
+                                .weight(1F)
+                        )
+                        DifficultyButton(color = Color(0xffddda16), text = "Normal", onClick = {
                             gameViewModel.setDifficulty(Difficulty.NORMAL)
                         },
                             modifier =modifier.alpha(when(gameViewModel.getDifficulty()){
-                            Difficulty.EASY -> 0.5F
-                            Difficulty.NORMAL -> 1F
-                            Difficulty.HARD -> 0.5F
-                        }))
+                                Difficulty.NORMAL -> 1F
+                                else -> 0.5F
+                            })
+                                .border(when(gameViewModel.getDifficulty()){
+                                    Difficulty.NORMAL -> 2.dp
+                                    else -> 0.dp
+                                }, Color.Black,
+                                    shape = RoundedCornerShape(40)
+                                )
+                                .weight(1F)
+                        )
                         DifficultyButton(color = Color.Red, text = "Hard", onClick = {
                             gameViewModel.setDifficulty(Difficulty.HARD)
                         },
                             modifier = modifier.alpha(when(gameViewModel.getDifficulty()){
-                                Difficulty.EASY -> 0.5F
-                                Difficulty.NORMAL -> 0.5F
                                 Difficulty.HARD -> 1F
-                            }))
+                                else -> 0.5F
+                            })
+                                .border(when(gameViewModel.getDifficulty()){
+                                    Difficulty.HARD -> 2.dp
+                                    else -> 0.dp
+                                }, Color.Black,
+                                    shape = RoundedCornerShape(40)
+                                )
+                                .weight(1F)
+                        )
                     }
                 }
             },
@@ -143,7 +169,7 @@ fun GameOverScreen(modifier: Modifier = Modifier,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Button(onClick = { showSettings = false }) {
-                        Text(text = "Close")
+                        Text(text = "OK")
                     }
                 }
             }
