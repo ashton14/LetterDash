@@ -30,8 +30,8 @@ import com.zybooks.letterdash.ui.components.PlayButton
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    highScore: Int,
-    onPlayClick: () -> Unit = {}
+    onPlayClick: () -> Unit = {},
+    gameViewModel: GameViewModel
 ) {
     var showTutorial by remember { mutableStateOf(false) }
     var showSettings by remember { mutableStateOf(false) }
@@ -61,9 +61,9 @@ fun HomeScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "HIGH SCORE: $highScore",
+                    text = "HIGH SCORE: ${gameViewModel.getHighScore()}",
                     color = Color.Black,
-                    fontSize = 50.sp
+                    fontSize = 46.sp
                 )
             }
             Spacer(modifier = Modifier.height(30.dp))
@@ -146,6 +146,6 @@ fun HomeScreen(
 fun HomePreview() {
     LetterDashTheme {
         HomeScreen(modifier = Modifier,
-            highScore = 0, onPlayClick = {})
+            gameViewModel = GameViewModel(), onPlayClick = {})
     }
 }

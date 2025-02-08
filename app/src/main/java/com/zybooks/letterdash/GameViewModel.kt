@@ -5,14 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
+import com.zybooks.letterdash.ui.components.Difficulty
 
 
 class GameViewModel : ViewModel() {
-    private val bookkeeper = Bookkeeper()
+    private val bookkeeper = Bookkeeper(this)
 
     private var score = MutableLiveData<Int>(0)
     private var highScore = MutableLiveData<Int>(0)
     private var currentLetters = MutableLiveData<List<Char>>(bookkeeper.generateLetters())
+    private var difficulty = MutableLiveData<Difficulty>(Difficulty.EASY)
 
 
     fun updateHighScore() : Unit {
@@ -21,14 +23,13 @@ class GameViewModel : ViewModel() {
             }
     }
 
-    fun updateScore(points: Int) : Unit {
+    private fun updateScore(points: Int) : Unit {
         score.value = score.value?.plus(points)
     }
 
-    fun updateCurrentLetters() : Unit {
+    private fun updateCurrentLetters() : Unit {
         currentLetters.value = bookkeeper.generateLetters()
     }
-
 
     fun getHighScore() : Int {
         return highScore.value!!
@@ -45,6 +46,14 @@ class GameViewModel : ViewModel() {
     fun resetGame() : Unit {
         score.value = 0
         currentLetters.value = bookkeeper.generateLetters()
+    }
+
+    fun setDifficulty(newDifficulty: Difficulty) : Unit {
+        difficulty.value = newDifficulty
+    }
+
+    fun getDifficulty() : Difficulty {
+        return difficulty.value!!
     }
 
 

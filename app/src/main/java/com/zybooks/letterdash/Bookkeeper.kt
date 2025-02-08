@@ -1,6 +1,7 @@
 package com.zybooks.letterdash
 
 import android.util.Log
+import com.zybooks.letterdash.ui.components.Difficulty
 import java.net.ConnectException
 import java.net.HttpURLConnection
 import java.net.SocketTimeoutException
@@ -10,7 +11,9 @@ import kotlinx.coroutines.*
 import java.io.IOException
 
 
-class Bookkeeper() {
+class Bookkeeper(
+    private val gameViewModel: GameViewModel
+) {
 
     fun isValidWord(word: String, callback: (Boolean) -> Unit) {  // Add a callback
         CoroutineScope(Dispatchers.IO).launch { // Launch in IO dispatcher
@@ -54,7 +57,11 @@ class Bookkeeper() {
     }
 
     fun generateLetters(): List<Char> {
-        val threshold = 14;
+        val threshold = when(gameViewModel.getDifficulty()) {
+            Difficulty.EASY -> 10
+            Difficulty.NORMAL -> 14
+            Difficulty.HARD -> 17
+        }
         var totalPoints = 0;
         val letters = mutableListOf<Char>();
 

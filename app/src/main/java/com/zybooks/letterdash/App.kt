@@ -30,7 +30,7 @@ fun App(
     ) {
         composable<Routes.Home> {
             HomeScreen(
-                highScore = gameViewModel.getHighScore(),
+                gameViewModel = gameViewModel,
                 onPlayClick = {
                     navController.navigate(Routes.Game)
                     gameViewModel.resetGame()

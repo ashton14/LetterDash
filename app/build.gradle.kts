@@ -63,5 +63,7 @@ dependencies {
     implementation("com.google.android.material:material:1.9.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.compose.material:material-icons-core:1.3.0") // Or latest version
+    implementation("androidx.compose.material:material-icons-extended:1.3.0")
 
 }
