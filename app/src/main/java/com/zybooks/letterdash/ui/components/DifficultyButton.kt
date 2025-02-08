@@ -1,6 +1,7 @@
 package com.zybooks.letterdash.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -10,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
@@ -34,8 +36,10 @@ fun DifficultyButton(
             fontWeight = FontWeight.Bold,
             fontSize = 12.sp,
             style = TextStyle(
-                fontWeight = FontWeight.Bold,
-            )
+                fontWeight = FontWeight.Bold
+            ),
+            modifier = Modifier.padding(top = 0.dp, bottom = 0.dp)
+
         )
     }
 }

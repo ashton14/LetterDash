@@ -48,7 +48,6 @@ fun GameOverScreen(modifier: Modifier = Modifier,
                    gameViewModel: GameViewModel) {
 
     var showSettings by remember { mutableStateOf(false) }
-    var soundEnabled by remember { mutableStateOf(true) }
 
     Box(
         modifier = modifier
@@ -97,20 +96,20 @@ fun GameOverScreen(modifier: Modifier = Modifier,
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
-                            imageVector = if (soundEnabled) Icons.AutoMirrored.Filled.VolumeUp else
+                            imageVector = if (gameViewModel.isSoundEnabled()) Icons.AutoMirrored.Filled.VolumeUp else
                                 Icons.AutoMirrored.Filled.VolumeOff,
-                            contentDescription = if (soundEnabled) "Sound Enabled" else
+                            contentDescription = if (gameViewModel.isSoundEnabled()) "Sound Enabled" else
                                 "Sound Disabled",
                             modifier = Modifier
                                 .size(40.dp)
                                 .clickable {
-                                    soundEnabled = !soundEnabled
+                                    gameViewModel.setSoundEnabled(!gameViewModel.isSoundEnabled())
                                 }
                         )
-                        Text(text = "Sound: ${if (soundEnabled) "On" else "Off"}")
+                        Text(text = "Sound: ${if (gameViewModel.isSoundEnabled()) "On" else "Off"}")
                     }
 
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
                     Row(verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween ) {
@@ -128,6 +127,7 @@ fun GameOverScreen(modifier: Modifier = Modifier,
                                     shape = RoundedCornerShape(40)
                                 )
                                 .weight(1F)
+                                .padding(0.dp)
                         )
                         DifficultyButton(color = Color(0xffddda16), text = "Normal", onClick = {
                             gameViewModel.setDifficulty(Difficulty.NORMAL)
@@ -143,6 +143,7 @@ fun GameOverScreen(modifier: Modifier = Modifier,
                                     shape = RoundedCornerShape(40)
                                 )
                                 .weight(1F)
+                                .padding(0.dp)
                         )
                         DifficultyButton(color = Color.Red, text = "Hard", onClick = {
                             gameViewModel.setDifficulty(Difficulty.HARD)
@@ -158,6 +159,7 @@ fun GameOverScreen(modifier: Modifier = Modifier,
                                     shape = RoundedCornerShape(40)
                                 )
                                 .weight(1F)
+                                .padding(0.dp)
                         )
                     }
                 }

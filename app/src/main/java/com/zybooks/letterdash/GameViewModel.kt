@@ -14,6 +14,7 @@ class GameViewModel : ViewModel() {
     private var highScore = MutableLiveData<Int>(0)
     private var currentLetters = MutableLiveData<List<Char>>()
     private var difficulty = MutableLiveData<Difficulty>(Difficulty.EASY)
+    private var soundEnabled = MutableLiveData<Boolean>(true)
 
     fun updateHighScore() {
         if (score.value != null && highScore.value != null && score.value!! > highScore.value!!) {
@@ -54,6 +55,13 @@ class GameViewModel : ViewModel() {
         return difficulty.value ?: Difficulty.EASY
     }
 
+    fun setSoundEnabled(enabled: Boolean) {
+        soundEnabled.value = enabled
+    }
+
+    fun isSoundEnabled(): Boolean {
+        return soundEnabled.value ?: true
+    }
 
 
     @OptIn(UnstableApi::class)

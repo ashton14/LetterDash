@@ -43,8 +43,6 @@ fun HomeScreen(
 ) {
     var showTutorial by remember { mutableStateOf(false) }
     var showSettings by remember { mutableStateOf(false) }
-    var soundEnabled by remember { mutableStateOf(true) }
-    var vibrationEnabled by remember { mutableStateOf(true) }
 
 
     Box(
@@ -123,19 +121,21 @@ fun HomeScreen(
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
-                                    imageVector = if (soundEnabled) Icons.AutoMirrored.Filled.VolumeUp else
+                                    imageVector = if (gameViewModel.isSoundEnabled()) Icons.AutoMirrored.Filled.VolumeUp else
                                         Icons.AutoMirrored.Filled.VolumeOff,
-                                    contentDescription = if (soundEnabled) "Sound Enabled" else
+                                    contentDescription = if (gameViewModel.isSoundEnabled()) "Sound Enabled" else
                                         "Sound Disabled",
                                     modifier = Modifier
                                         .size(40.dp)
                                         .clickable {
-                                            soundEnabled = !soundEnabled
+                                            gameViewModel.setSoundEnabled(!gameViewModel.isSoundEnabled())
                                         }
                                 )
-                                Text(text = "Sound: ${if (soundEnabled) "On" else "Off"}")
+                                Text(text = "Sound: ${if (gameViewModel.isSoundEnabled()) "On" else "Off"}")
                             }
-                            Spacer(modifier = Modifier.height(10.dp))
+
+                            Spacer(modifier = Modifier.height(16.dp))
+
                             Row(verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceBetween ) {
                                 DifficultyButton(color = Color(0xFF009539), text = "Easy", onClick = {
@@ -151,6 +151,7 @@ fun HomeScreen(
                                         }, Color.Black,
                                             shape = RoundedCornerShape(40))
                                         .weight(1F)
+                                        .padding(0.dp)
                                     )
                                 DifficultyButton(color = Color(0xffddda16), text = "Normal", onClick = {
                                     gameViewModel.setDifficulty(Difficulty.NORMAL)
@@ -165,6 +166,7 @@ fun HomeScreen(
                                         }, Color.Black,
                                             shape = RoundedCornerShape(40))
                                         .weight(1F)
+                                        .padding(0.dp)
                                 )
                                 DifficultyButton(color = Color.Red, text = "Hard", onClick = {
                                     gameViewModel.setDifficulty(Difficulty.HARD)
@@ -180,6 +182,7 @@ fun HomeScreen(
                                             shape = RoundedCornerShape(40)
                                         )
                                         .weight(1F)
+                                        .padding(0.dp)
                                 )
                             }
                         }
