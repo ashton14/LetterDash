@@ -9,6 +9,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -29,6 +30,7 @@ import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import com.zybooks.letterdash.ui.components.Keyboard
 import com.zybooks.letterdash.ui.components.LetterTile
+import com.zybooks.letterdash.ui.components.SkipButton
 import com.zybooks.letterdash.ui.components.Timer
 
 
@@ -39,8 +41,9 @@ fun GameScreen(
     onTimerEnd: () -> Unit = {},
     gameViewModel: GameViewModel
 ) {
-    var currentWord by remember { mutableStateOf(TextFieldValue("")) }
+
     val focusRequester = remember { FocusRequester() }
+    gameViewModel.currentWord.observeAsState("").value
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
@@ -81,8 +84,8 @@ fun GameScreen(
 
         // Text Field
         OutlinedTextField(
-            value = currentWord,
-            onValueChange = { currentWord = it },
+            value = gameViewModel.getCurrentWord(),
+            onValueChange = { gameViewModel.setCurrentWord(it)},
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -110,31 +113,38 @@ fun GameScreen(
 
             }
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+        SkipButton(onClick = {
+            gameViewModel.skipWord()
+        })
+
         Spacer(modifier = Modifier.weight(1f))
 
         Keyboard(
             modifier = modifier.fillMaxWidth(),
             onKey = { char ->
 
-                if (char == '✓') {
-                    gameViewModel.submitWord(
-                        currentWord.text,
-                        gameViewModel.getCurrentLetters()
-                    ) { isSuccessful ->  // Callback from submitWord
-                        if (isSuccessful) {
-                            Log.i("debug", "Word submitted successfully")
-                            currentWord = currentWord.copy(text = "") // Clear the word *inside* the callback
+                when (char) {
+                    '✓' -> {
+                        gameViewModel.submitWord(
+                            gameViewModel.getCurrentWord(),
+                            gameViewModel.getCurrentLetters()
+                        ) { isSuccessful ->  // Callback from submitWord
+                            if (isSuccessful) {
+                                Log.i("debug", "Word submitted successfully")
+                                gameViewModel.setCurrentWord("")
+                            }
                         }
-                    }
-                    Log.i("debug", "after: "+gameViewModel.getScore().toString())
 
-                } else if (char == '⌫') {
-                    currentWord = currentWord.copy(
-                        text = if (currentWord.text.isNotEmpty()) currentWord.text.dropLast(1)
-                        else currentWord.text
-                    )
-                } else {
-                    currentWord = currentWord.copy(text = currentWord.text + char)
+                    }
+                    '⌫' -> {
+                        gameViewModel.removeLastCharacter()
+
+                    }
+                    else -> {
+                        gameViewModel.addCharacter(char)
+                    }
                 }
             },
         )

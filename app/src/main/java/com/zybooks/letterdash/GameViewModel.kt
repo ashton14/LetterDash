@@ -3,8 +3,10 @@ package com.zybooks.letterdash
 import androidx.annotation.OptIn
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
+import kotlinx.coroutines.launch
 
 
 class GameViewModel : ViewModel() {
@@ -13,6 +15,7 @@ class GameViewModel : ViewModel() {
     private var score = MutableLiveData<Int>(0)
     private var highScore = MutableLiveData<Int>(0)
     private var currentLetters = MutableLiveData<List<Char>>()
+    var currentWord = MutableLiveData<String>("")
     private var difficulty = MutableLiveData<Difficulty>(Difficulty.EASY)
     private var soundEnabled = MutableLiveData<Boolean>(true)
 
@@ -23,7 +26,11 @@ class GameViewModel : ViewModel() {
     }
 
     private fun updateScore(points: Int) {
-        score.value = (score.value ?: 0) + points
+        if((score.value ?: 0) + points < 0) {
+            score.value = 0
+        } else {
+            score.value = (score.value ?: 0) + points
+        }
     }
 
     private fun updateCurrentLetters() {
@@ -40,6 +47,24 @@ class GameViewModel : ViewModel() {
 
     fun getCurrentLetters(): List<Char> {
         return currentLetters.value ?: emptyList()
+    }
+
+    fun setCurrentWord(newWord: String) {
+        currentWord.value = newWord
+    }
+
+    fun getCurrentWord(): String {
+        return currentWord.value ?: ""
+    }
+
+    fun removeLastCharacter() {
+        if (currentWord.value?.isNotEmpty() == true){
+            currentWord.value = currentWord.value!!.dropLast(1)
+        }
+    }
+
+    fun addCharacter(char: Char) {
+        currentWord.value += char
     }
 
     fun resetGame() {
@@ -61,6 +86,12 @@ class GameViewModel : ViewModel() {
 
     fun isSoundEnabled(): Boolean {
         return soundEnabled.value ?: true
+    }
+
+    fun skipWord() {
+        currentWord.value = ""
+        updateCurrentLetters()
+        updateScore(-15)
     }
 
 
