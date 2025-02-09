@@ -89,9 +89,10 @@ class GameViewModel : ViewModel() {
     }
 
     fun skipWord() {
-        currentWord.value = ""
+        currentWord.value = " "
         updateCurrentLetters()
         updateScore(-15)
+        currentWord.value = ""
     }
 
 

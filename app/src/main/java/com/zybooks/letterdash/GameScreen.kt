@@ -116,7 +116,9 @@ fun GameScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         SkipButton(onClick = {
+            Log.i("debug", gameViewModel.getCurrentLetters().toString())
             gameViewModel.skipWord()
+            Log.i("debug", gameViewModel.getCurrentLetters().toString())
         })
 
         Spacer(modifier = Modifier.weight(1f))
