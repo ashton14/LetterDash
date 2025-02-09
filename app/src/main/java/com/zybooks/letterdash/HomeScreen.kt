@@ -15,6 +15,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -43,6 +44,8 @@ fun HomeScreen(
 ) {
     var showTutorial by remember { mutableStateOf(false) }
     var showSettings by remember { mutableStateOf(false) }
+    gameViewModel.soundEnabled.observeAsState("").value
+    gameViewModel.difficulty.observeAsState("").value
 
 
     Box(

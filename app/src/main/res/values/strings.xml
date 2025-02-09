@@ -8,6 +8,7 @@
     <string name="scoring">
         Each letter has an associated point value, based on scrabble points.
         Your score for each word is the sum of the point values of each letter.
-        More unique letters have higher point values (ie. Q, X, Z).
+        More unique letters have higher point values (ie. Q, X, Z). You can skip
+        but you will lose points.
     </string>
 </resources>
