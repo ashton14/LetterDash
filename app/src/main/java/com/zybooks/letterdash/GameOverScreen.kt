@@ -24,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -48,6 +49,8 @@ fun GameOverScreen(modifier: Modifier = Modifier,
                    gameViewModel: GameViewModel) {
 
     var showSettings by remember { mutableStateOf(false) }
+    gameViewModel.soundEnabled.observeAsState("").value
+    gameViewModel.difficulty.observeAsState("").value
 
     Box(
         modifier = modifier

@@ -19,6 +19,7 @@ class GameViewModel : ViewModel() {
     var difficulty = MutableLiveData<Difficulty>(Difficulty.EASY)
     var soundEnabled = MutableLiveData<Boolean>(true)
 
+
     fun updateHighScore() {
         if (score.value != null && highScore.value != null && score.value!! > highScore.value!!) {
             highScore.value = score.value

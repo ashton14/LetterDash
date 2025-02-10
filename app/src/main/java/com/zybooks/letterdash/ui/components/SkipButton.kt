@@ -28,7 +28,7 @@ fun SkipButton(
         modifier = modifier
             .height(60.dp)
             .width(150.dp)
-            .border(2.dp, Color.Black),
+            .border(2.dp, Color.Black, RoundedCornerShape(100)),
         shape = RoundedCornerShape(100),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.DarkGray,
