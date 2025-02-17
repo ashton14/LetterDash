@@ -3,6 +3,7 @@ package com.zybooks.letterdash
 import androidx.annotation.OptIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
@@ -11,12 +12,9 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,12 +34,8 @@ fun GameScreen(
     gameViewModel: GameViewModel
 ) {
 
-    val focusRequester = remember { FocusRequester() }
     gameViewModel.currentWord.observeAsState("").value
 
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-    }
 
     Column(
         modifier = modifier
@@ -60,7 +54,7 @@ fun GameScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp) // Add some padding around the timer
+                .padding(16.dp)
                 .align(Alignment.CenterHorizontally),
             contentAlignment = Alignment.Center
 
@@ -69,8 +63,7 @@ fun GameScreen(
         }
 
         Text(
-            modifier = modifier.padding(16.dp)
-                .focusRequester(focusRequester),
+            modifier = modifier.padding(16.dp),
             text = "SCORE: ${gameViewModel.getScore()}",
             fontSize = 30.sp,
 
@@ -80,11 +73,10 @@ fun GameScreen(
         OutlinedTextField(
             value = gameViewModel.getCurrentWord(),
             onValueChange = { gameViewModel.setCurrentWord(it)},
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            readOnly = true,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .focusRequester(focusRequester)
                 .border(3.dp, Color.Black),
             textStyle = TextStyle(fontSize = 30.sp)
 
