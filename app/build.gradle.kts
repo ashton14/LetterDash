@@ -53,7 +53,6 @@ dependencies {
     implementation(libs.protolite.well.known.types)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.media3.common.ktx)
-    implementation(libs.androidx.datastore.core.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -68,6 +67,6 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.3.0")
     implementation("androidx.compose.runtime:runtime:1.3.0")
     implementation("androidx.compose.runtime:runtime-livedata:1.7.7")
-    implementation(libs.androidx.datastore.preferences.core)
+    implementation(libs.androidx.datastore.preferences)
 
 }
