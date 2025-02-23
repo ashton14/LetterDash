@@ -3,10 +3,8 @@ package com.zybooks.letterdash
 import androidx.annotation.OptIn
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
-import kotlinx.coroutines.launch
 
 
 class GameViewModel : ViewModel() {

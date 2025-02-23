@@ -14,16 +14,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import com.zybooks.letterdash.ui.components.Keyboard
 import com.zybooks.letterdash.ui.components.LetterTile
 import com.zybooks.letterdash.ui.components.SkipButton
 import com.zybooks.letterdash.ui.components.Timer
+import kotlinx.coroutines.launch
 
 
 @OptIn(UnstableApi::class)
@@ -35,6 +38,9 @@ fun GameScreen(
 ) {
 
     gameViewModel.currentWord.observeAsState("").value
+
+    val store = AppStorage(LocalContext.current)
+    val coroutineScope = rememberCoroutineScope()
 
 
     Column(
@@ -59,7 +65,11 @@ fun GameScreen(
             contentAlignment = Alignment.Center
 
         ) {
-            Timer(onTimerEnd = onTimerEnd)
+            Timer(onTimerEnd = {
+                onTimerEnd()
+                coroutineScope.launch {
+                    store.updateHighScore(gameViewModel.getHighScore())
+                }})
         }
 
         Text(

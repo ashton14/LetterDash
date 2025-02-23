@@ -37,6 +37,7 @@ import com.zybooks.letterdash.ui.components.SettingsButton
 import com.zybooks.letterdash.ui.components.TitleLogo
 import com.zybooks.letterdash.ui.components.HowToPlayButton
 import com.zybooks.letterdash.ui.components.PlayButton
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -144,6 +145,9 @@ fun HomeScreen(
                                         .size(40.dp)
                                         .clickable {
                                             gameViewModel.setSoundEnabled(!gameViewModel.isSoundEnabled())
+                                            coroutineScope.launch {
+                                                store.updateSoundEnabled(gameViewModel.isSoundEnabled())
+                                            }
                                         }
                                 )
                                 Text(text = "Sound: ${if (gameViewModel.isSoundEnabled()) "On" else "Off"}")
@@ -155,6 +159,9 @@ fun HomeScreen(
                                 horizontalArrangement = Arrangement.SpaceBetween ) {
                                 DifficultyButton(color = Color(0xFF009539), text = "Easy", onClick = {
                                     gameViewModel.setDifficulty(Difficulty.EASY)
+                                    coroutineScope.launch {
+                                        store.updateDifficulty(gameViewModel.getDifficulty())
+                                    }
                                 },
                                     modifier = modifier.alpha(when(gameViewModel.getDifficulty()){
                                         Difficulty.EASY -> 1F
@@ -170,6 +177,9 @@ fun HomeScreen(
                                     )
                                 DifficultyButton(color = Color(0xffddda16), text = "Normal", onClick = {
                                     gameViewModel.setDifficulty(Difficulty.NORMAL)
+                                    coroutineScope.launch {
+                                        store.updateDifficulty(gameViewModel.getDifficulty())
+                                    }
                                 },
                                     modifier =modifier.alpha(when(gameViewModel.getDifficulty()){
                                         Difficulty.NORMAL -> 1F
@@ -185,6 +195,9 @@ fun HomeScreen(
                                 )
                                 DifficultyButton(color = Color.Red, text = "Hard", onClick = {
                                     gameViewModel.setDifficulty(Difficulty.HARD)
+                                    coroutineScope.launch {
+                                        store.updateDifficulty(gameViewModel.getDifficulty())
+                                    }
                                 },
                                     modifier = modifier.alpha(when(gameViewModel.getDifficulty()){
                                         Difficulty.HARD -> 1F
@@ -208,7 +221,12 @@ fun HomeScreen(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Button(onClick = { showSettings = false }) {
+                            Button(onClick = {
+                                showSettings = false
+                                coroutineScope.launch {
+                                    store.updateDifficulty(gameViewModel.getDifficulty())
+                                }
+                            }) {
                                 Text(text = "OK")
                             }
                         }
