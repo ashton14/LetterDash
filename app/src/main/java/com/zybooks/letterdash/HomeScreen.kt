@@ -1,5 +1,6 @@
 package com.zybooks.letterdash
 
+import android.media.MediaPlayer
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.background
@@ -51,6 +52,11 @@ fun HomeScreen(
     gameViewModel.soundEnabled.observeAsState("").value
     gameViewModel.difficulty.observeAsState("").value
 
+    val context = LocalContext.current
+
+    val menuButton = remember { MediaPlayer.create(context, R.raw.button_124476) }
+
+
     //data store
     val store = AppStorage(LocalContext.current)
     val appPrefs = store.appPreferencesFlow.collectAsStateWithLifecycle(AppPreferences())
@@ -90,18 +96,32 @@ fun HomeScreen(
             }
             Spacer(modifier = Modifier.height(30.dp))
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                PlayButton(onClick = onPlayClick)
+                PlayButton(onClick = {
+                    if(gameViewModel.getSoundEnabled()) {
+                        menuButton?.seekTo(0)
+                        menuButton?.start()
+                    }
+                    onPlayClick()
+                })
                 Row(horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = modifier
                         .padding(top = 6.dp)
                 ) {
                     SettingsButton(onClick = {
+                        if(gameViewModel.getSoundEnabled()) {
+                            menuButton?.seekTo(0)
+                            menuButton?.start()
+                        }
                         showSettings = true
                     })
 
                     Spacer(modifier = Modifier.width(30.dp))
 
                     HowToPlayButton(onClick = {
+                        if(gameViewModel.getSoundEnabled()) {
+                            menuButton?.seekTo(0)
+                            menuButton?.start()
+                        }
                         showTutorial = true
                     })
 
@@ -123,7 +143,12 @@ fun HomeScreen(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Button(onClick = { showTutorial = false }) {
+                            Button(onClick = {
+                                if(gameViewModel.getSoundEnabled()) {
+                                    menuButton?.seekTo(0)
+                                    menuButton?.start()
+                                }
+                                showTutorial = false }) {
                                 Text(text = "Close")
                             }
                         }
@@ -158,6 +183,10 @@ fun HomeScreen(
                             Row(verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceBetween ) {
                                 DifficultyButton(color = Color(0xFF009539), text = "Easy", onClick = {
+                                    if(gameViewModel.getSoundEnabled()) {
+                                        menuButton?.seekTo(0)
+                                        menuButton?.start()
+                                    }
                                     gameViewModel.setDifficulty(Difficulty.EASY)
                                     coroutineScope.launch {
                                         store.updateDifficulty(gameViewModel.getDifficulty())
@@ -176,6 +205,10 @@ fun HomeScreen(
                                         .padding(0.dp)
                                     )
                                 DifficultyButton(color = Color(0xffddda16), text = "Normal", onClick = {
+                                    if(gameViewModel.getSoundEnabled()) {
+                                        menuButton?.seekTo(0)
+                                        menuButton?.start()
+                                    }
                                     gameViewModel.setDifficulty(Difficulty.NORMAL)
                                     coroutineScope.launch {
                                         store.updateDifficulty(gameViewModel.getDifficulty())
@@ -194,6 +227,10 @@ fun HomeScreen(
                                         .padding(0.dp)
                                 )
                                 DifficultyButton(color = Color.Red, text = "Hard", onClick = {
+                                    if(gameViewModel.getSoundEnabled()) {
+                                        menuButton?.seekTo(0)
+                                        menuButton?.start()
+                                    }
                                     gameViewModel.setDifficulty(Difficulty.HARD)
                                     coroutineScope.launch {
                                         store.updateDifficulty(gameViewModel.getDifficulty())
@@ -222,6 +259,10 @@ fun HomeScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Button(onClick = {
+                                if(gameViewModel.getSoundEnabled()) {
+                                    menuButton?.seekTo(0)
+                                    menuButton?.start()
+                                }
                                 showSettings = false
                                 coroutineScope.launch {
                                     store.updateDifficulty(gameViewModel.getDifficulty())

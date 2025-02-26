@@ -1,5 +1,6 @@
 package com.zybooks.letterdash
 
+import android.media.MediaPlayer
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -27,20 +28,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.zybooks.letterdash.ui.components.DifficultyButton
 import com.zybooks.letterdash.ui.components.HomeButton
 import com.zybooks.letterdash.ui.components.PlayAgainButton
 import com.zybooks.letterdash.ui.components.SettingsButton
 import com.zybooks.letterdash.ui.components.TitleLogo
+import kotlinx.coroutines.launch
 
 @Composable
 fun GameOverScreen(modifier: Modifier = Modifier,
@@ -51,6 +56,13 @@ fun GameOverScreen(modifier: Modifier = Modifier,
     var showSettings by remember { mutableStateOf(false) }
     gameViewModel.soundEnabled.observeAsState("").value
     gameViewModel.difficulty.observeAsState("").value
+
+    val store = AppStorage(LocalContext.current)
+    val coroutineScope = rememberCoroutineScope()
+
+    val context = LocalContext.current
+
+    val menuButton = remember { MediaPlayer.create(context, R.raw.button_124476) }
 
     Box(
         modifier = modifier
@@ -81,14 +93,31 @@ fun GameOverScreen(modifier: Modifier = Modifier,
             }
             Spacer(modifier = Modifier.height(30.dp))
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                PlayAgainButton(onClick = onPlayAgainClick)
+                PlayAgainButton(onClick = {
+                    if(gameViewModel.getSoundEnabled()) {
+                        menuButton?.seekTo(0)
+                        menuButton?.start()
+                    }
+                    onPlayAgainClick()
+                })
                 Row(horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = modifier
                         .padding(top = 6.dp)
                 )                {
-                    SettingsButton(onClick = {showSettings = true})
+                    SettingsButton(onClick = {
+                        if(gameViewModel.getSoundEnabled()) {
+                            menuButton?.seekTo(0)
+                            menuButton?.start()
+                        }
+                        showSettings = true})
                     Spacer(modifier = Modifier.width(30.dp))
-                    HomeButton(onClick = onHomeClick)
+                    HomeButton(onClick = {
+                        if(gameViewModel.getSoundEnabled()) {
+                            menuButton?.seekTo(0)
+                            menuButton?.start()
+                        }
+                        onHomeClick()
+                    })
                 }
             }
         }
@@ -107,6 +136,9 @@ fun GameOverScreen(modifier: Modifier = Modifier,
                                 .size(40.dp)
                                 .clickable {
                                     gameViewModel.setSoundEnabled(!gameViewModel.isSoundEnabled())
+                                    coroutineScope.launch {
+                                        store.updateSoundEnabled(gameViewModel.isSoundEnabled())
+                                    }
                                 }
                         )
                         Text(text = "Sound: ${if (gameViewModel.isSoundEnabled()) "On" else "Off"}")
@@ -117,7 +149,14 @@ fun GameOverScreen(modifier: Modifier = Modifier,
                     Row(verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween ) {
                         DifficultyButton(color = Color(0xFF009539), text = "Easy", onClick = {
+                            if(gameViewModel.getSoundEnabled()) {
+                                menuButton?.seekTo(0)
+                                menuButton?.start()
+                            }
                             gameViewModel.setDifficulty(Difficulty.EASY)
+                            coroutineScope.launch {
+                                store.updateDifficulty(gameViewModel.getDifficulty())
+                            }
                         },
                             modifier = modifier.alpha(when(gameViewModel.getDifficulty()){
                                 Difficulty.EASY -> 1F
@@ -133,7 +172,14 @@ fun GameOverScreen(modifier: Modifier = Modifier,
                                 .padding(0.dp)
                         )
                         DifficultyButton(color = Color(0xffddda16), text = "Normal", onClick = {
+                            if(gameViewModel.getSoundEnabled()) {
+                                menuButton?.seekTo(0)
+                                menuButton?.start()
+                            }
                             gameViewModel.setDifficulty(Difficulty.NORMAL)
+                            coroutineScope.launch {
+                                store.updateDifficulty(gameViewModel.getDifficulty())
+                            }
                         },
                             modifier =modifier.alpha(when(gameViewModel.getDifficulty()){
                                 Difficulty.NORMAL -> 1F
@@ -149,7 +195,14 @@ fun GameOverScreen(modifier: Modifier = Modifier,
                                 .padding(0.dp)
                         )
                         DifficultyButton(color = Color.Red, text = "Hard", onClick = {
+                            if(gameViewModel.getSoundEnabled()) {
+                                menuButton?.seekTo(0)
+                                menuButton?.start()
+                            }
                             gameViewModel.setDifficulty(Difficulty.HARD)
+                            coroutineScope.launch {
+                                store.updateDifficulty(gameViewModel.getDifficulty())
+                            }
                         },
                             modifier = modifier.alpha(when(gameViewModel.getDifficulty()){
                                 Difficulty.HARD -> 1F
@@ -173,7 +226,12 @@ fun GameOverScreen(modifier: Modifier = Modifier,
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Button(onClick = { showSettings = false }) {
+                    Button(onClick = {
+                        if(gameViewModel.getSoundEnabled()) {
+                            menuButton?.seekTo(0)
+                            menuButton?.start()
+                        }
+                        showSettings = false }) {
                         Text(text = "OK")
                     }
                 }

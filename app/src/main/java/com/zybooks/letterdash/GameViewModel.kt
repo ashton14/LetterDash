@@ -83,6 +83,10 @@ class GameViewModel : ViewModel() {
         soundEnabled.value = enabled
     }
 
+    fun getSoundEnabled(): Boolean {
+        return soundEnabled.value ?: true
+    }
+
     fun setHighScore(newHighScore: Int) {
         highScore.value = newHighScore
     }
