@@ -6,3 +6,11 @@ Here is the [Figma design](https://www.figma.com/design/BBrnfBtFz0u5hXCPM0Bl0f/L
 
 Letterdash uses this [Free Dictionary API](https://dictionaryapi.dev/) to check the validity of words.
 
+Some relevant Jetpack Compose libraries:
+- material3
+- runtime
+- ui
+- foundation
+
+Other:
+- os.CountDownTimer
